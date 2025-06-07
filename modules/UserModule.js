@@ -1,27 +1,11 @@
-const mongoose = require('mongoose');
 const userCollection = require('../models/User');
 
-class Database {
+class UserModule {
     constructor() {
         this.userCollection = userCollection;
-    }
-    async connect() {
-        try {
-            await mongoose.connect(`${process.env.DATABASE_URL}`)
-            .then((data) => {
-                console.log('connected to db - ok');
-            })
-            .catch((err) => {
-                console.log(err);
-                console.log('connected to db - err');
-            })
-        }
-        catch(err) {
-            console.log('connected to db - err');
-        }
-    }
+    };
 
-    async createUser(userData) {
+    async create(userData) {
         try {
             return new Promise((resolve, reject) => {
                 const user = {
@@ -35,22 +19,21 @@ class Database {
             });
         }
         catch(err) {
-            console.log('err')
+            console.log('err');
         }
-    }
+    };
 
     async findByEmail(email) {
         try {
             return new Promise((resolve, reject) => {
-                const targetUser = userCollection.find({email: email});
-                console.log(targetUser)
+                const targetUser = userCollection.find({email: email}) ? userCollection.find({email: email}) : null;
+                resolve(targetUser);
             })
         }
         catch(err) {
-
+        
         }
-    }
-
+    };
 };
 
-module.exports = new Database();
+module.exports = new UserModule();
