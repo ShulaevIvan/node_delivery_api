@@ -14,7 +14,7 @@ class UserModule {
                     name: userData.name,
                     contactPhone: userData.contactPhone ? userData.contactPhone : '',
                 };
-                const userObj = userCollection.create(user);
+                const userObj = this.userCollection.create(user);
                 resolve(userObj);
             });
         }
@@ -23,10 +23,22 @@ class UserModule {
         }
     };
 
+    async remove(email) {
+        try {
+            return new Promise((resolve, reject) => {
+                const userObj = this.userCollection.deleteOne({ email: email});
+                resolve(userObj);
+            })
+        }
+        catch(err) {
+            console.log('err');
+        }
+    }
+
     async findByEmail(email) {
         try {
             return new Promise((resolve, reject) => {
-                const targetUser = userCollection.find({email: email}) ? userCollection.find({email: email}) : null;
+                const targetUser = this.userCollection.find({email: email}) ? userCollection.find({email: email}) : null;
                 resolve(targetUser);
             })
         }

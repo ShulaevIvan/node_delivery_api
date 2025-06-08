@@ -1,9 +1,9 @@
 const UserModule = require('../../modules/UserModule');
 
 const singupUser = async (userData) => {
+    const responseText = {};
     try {
         const { email, name, passwordHash, contactPhone } = userData;
-        let responseText = {};
         const existingUser = await UserModule.findByEmail(email);
 
         if (existingUser && existingUser.length > 0) {
@@ -19,7 +19,6 @@ const singupUser = async (userData) => {
             contactPhone: contactPhone
         })
         .then((resultData) => {
-            console.log(resultData)
             responseText.text = 'user created!';
             responseText.err = false;
             
@@ -34,11 +33,10 @@ const singupUser = async (userData) => {
        
     }
     catch(err) {
-        console.log('test');
-        return {
-            text: `err to create user`,
-            err: true
-        }
+        responseText.text = `err to create user`;
+        responseText.err = true;
+
+        return responseText;
     }
 };
 

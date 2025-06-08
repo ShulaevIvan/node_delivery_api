@@ -1,5 +1,6 @@
 const router = require('express').Router();
 const singupUser = require('../handlers/singupUser');
+const removeUser = require('../handlers/removeUser');
 
 
 router.get('/', async (req, res) => {
@@ -14,9 +15,9 @@ router.get('/', async (req, res) => {
 router.post('/singup', async (req, res) => {
     try {
         const data = req.body;
+
         await singupUser(data)
         .then((statusData) => {
-            console.log(statusData)
             if (statusData && !statusData.err) {
                 res.status(201).json({responseText: statusData.text});
                 return;
@@ -31,6 +32,20 @@ router.post('/singup', async (req, res) => {
     catch(err) {
         res.status(500).json({responseText: 'unknown err POST /singup'});
     }   
+});
+
+router.delete('/delete', async (req, res) => {
+    const data = req.body;
+
+    await removeUser(data)
+    .then((statusData) => {
+        console.log(statusData)
+        if (statusData && !statusData.err) {
+            return res.status(200).json({responseText: statusData.text});
+        }
+        return res.status(500).json({responseText: 'err'});
+    });
+
 });
 
 module.exports = router;

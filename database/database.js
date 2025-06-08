@@ -20,37 +20,6 @@ class Database {
             console.log('connected to db - err');
         }
     }
-
-    async createUser(userData) {
-        try {
-            return new Promise((resolve, reject) => {
-                const user = {
-                    email: userData.email,
-                    passwordHash: userData.email,
-                    name: userData.name,
-                    contactPhone: userData.contactPhone ? userData.contactPhone : '',
-                };
-                const userObj = userCollection.create(user);
-                resolve(userObj);
-            });
-        }
-        catch(err) {
-            console.log('err')
-        }
-    }
-
-    async findByEmail(email) {
-        try {
-            return new Promise((resolve, reject) => {
-                const targetUser = userCollection.find({email: email});
-                console.log(targetUser)
-            })
-        }
-        catch(err) {
-
-        }
-    }
-
 };
 
 module.exports = new Database();
